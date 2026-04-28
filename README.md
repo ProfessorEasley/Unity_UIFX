@@ -24,6 +24,22 @@ If the editor is in Play mode when you click a menu item it exits play mode firs
 
 ---
 
+## Showcase Videos
+
+Store feature capture videos under [Assets/UIFX/Demo/Videos](Assets/UIFX/Demo/Videos/README.md). Each feature has its own README and folder:
+
+| Feature | Video README |
+|---|---|
+| UIShimmer | [Assets/UIFX/Demo/Videos/UIShimmer/README.md](Assets/UIFX/Demo/Videos/UIShimmer/README.md) |
+| UIPathProgress | [Assets/UIFX/Demo/Videos/PathProgress/README.md](Assets/UIFX/Demo/Videos/PathProgress/README.md) |
+| Button Shine/Ripple | [Assets/UIFX/Demo/Videos/ShineShader/README.md](Assets/UIFX/Demo/Videos/ShineShader/README.md) |
+| uGUI Sparkle Particles | [Assets/UIFX/Demo/Videos/SparkleParticles/README.md](Assets/UIFX/Demo/Videos/SparkleParticles/README.md) |
+| Animated Coin Counter | [Assets/UIFX/Demo/Videos/CoinCounter/README.md](Assets/UIFX/Demo/Videos/CoinCounter/README.md) |
+| Sprite Glow Outline | [Assets/UIFX/Demo/Videos/SpriteGlow/README.md](Assets/UIFX/Demo/Videos/SpriteGlow/README.md) |
+| Dynamic Ordering System | [Assets/UIFX/Demo/Videos/DynamicOrder/README.md](Assets/UIFX/Demo/Videos/DynamicOrder/README.md) |
+
+---
+
 ## Effects
 
 ### UIShimmer — Jing Yang
@@ -144,7 +160,10 @@ Adds an HDR outline around a `SpriteRenderer`'s sprite borders via a `MaterialPr
 ```
 Assets/
 ├── UIFX/
-│   ├── Demo/Scenes/         # UIShimmerDemo.unity, Vedaant_Demo.unity, UIFX_Catalog.unity
+│   ├── Demo/
+│   │   ├── Scenes/         # UIShimmerDemo.unity, Vedaant_Demo.unity, UIFX_Catalog.unity
+│   │   ├── Scripts/        # UIShimmerDemoController.cs
+│   │   └── Videos/         # Feature showcase captures and per-feature README files
 │   ├── Editor/              # UIFXMenuItems.cs, UIShimmerSetup.cs, UIShimmerDemoBuilder.cs, UIDynamicOrderDemoBuilder.cs
 │   └── Runtime/
 │       ├── Materials/       # UIShimmer.mat (auto-created)
