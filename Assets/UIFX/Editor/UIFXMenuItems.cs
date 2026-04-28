@@ -37,6 +37,11 @@ namespace UIFX.Editor
         static void OpenSpriteGlowDemo() =>
             OpenScene("Assets/Scenes/TestBehaviour.unity");
 
+        // ── Dynamic Order (Naveen) ───────────────────────────────────────────
+        [MenuItem("UIFX/Dynamic Order/Open Demo Scene")]
+        static void OpenDynamicOrderDemo() =>
+            OpenScene("Assets/UIFX/Demo/Scenes/DynamicOrderDemo.unity");
+
         // ── Helpers ──────────────────────────────────────────────────────────
 
         static void OpenScene(string assetPath)
