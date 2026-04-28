@@ -18,6 +18,7 @@ Every effect has a demo scene reachable from the editor menu bar:
 | **UIFX › Sparkle Particles › Open Demo Scene** | uGUI Sparkle Particles | Aryan Shah |
 | **UIFX › Coin Counter › Open Demo Scene** | Animated Coin Counter | Vasudha Padala |
 | **UIFX › Sprite Glow › Open Demo Scene** | Sprite Glow Outline | Aryaman Kunwar |
+| **UIFX › Dynamic Order › Create Demo Scene** | Dynamic Ordering System | Naveen Prakaasham Vairaprakasam |
 
 If the editor is in Play mode when you click a menu item it exits play mode first, then loads the scene.
 
@@ -97,6 +98,30 @@ counter.Play(int newValue);   // interrupt any running animation and animate to 
 
 ---
 
+### Dynamic Ordering System — Naveen Prakaasham Vairaprakasam
+`Assets/UIFX/Runtime/Scripts/FX/UIDynamicOrderSystem.cs` · `Assets/UIFX/Runtime/Scripts/FX/UIDynamicOrderItem.cs`
+
+A runtime system that reorders a vertical list of UI components with animated transitions. Select an item, click a position button (1–5), and the item exits with a flash, remaining items slide to their new slots, and the moved item re-enters at its target position with a scale-up emphasis.
+
+**Transition states:**
+- **Entering** — fade-in + scale-up with ease-out-back overshoot, followed by a highlight pulse
+- **Exiting** — rapid orange flash (3 pulses), then fade-out + scale-down
+- **Translating** — smooth anchored-position interpolation with ease-out-cubic easing
+
+**Key API**
+```csharp
+system.MoveSelectedToPosition(int index);  // move the selected item to a 0-based position
+system.ResetOrder();                       // animate all items back to their original order
+item.Select();                             // highlight with golden pulse + scale punch
+item.Deselect();                           // clear highlight
+```
+
+All animations use native Unity coroutines — no DOTween dependency.
+
+**Demo:** run **UIFX > Dynamic Order > Create Demo Scene** to generate a scene with 5 labeled items, position buttons, and a reset button.
+
+---
+
 ### Sprite Glow Outline — Aryaman Kunwar
 `Assets/SpriteGlow/Runtime/SpriteGlowEffect.cs`
 
@@ -120,16 +145,17 @@ Adds an HDR outline around a `SpriteRenderer`'s sprite borders via a `MaterialPr
 Assets/
 ├── UIFX/
 │   ├── Demo/Scenes/         # UIShimmerDemo.unity, Vedaant_Demo.unity, UIFX_Catalog.unity
-│   ├── Editor/              # UIFXMenuItems.cs, UIShimmerSetup.cs, UIShimmerDemoBuilder.cs
+│   ├── Editor/              # UIFXMenuItems.cs, UIShimmerSetup.cs, UIShimmerDemoBuilder.cs, UIDynamicOrderDemoBuilder.cs
 │   └── Runtime/
 │       ├── Materials/       # UIShimmer.mat (auto-created)
 │       └── Scripts/
 │           ├── Core/        # UIEffectBase.cs
-│           └── FX/          # UIShimmerEffect.cs
+│           └── FX/          # UIShimmerEffect.cs, UIDynamicOrderSystem.cs, UIDynamicOrderItem.cs
 ├── Scripts/                 # UIPathProgress.cs, MinMaxSliderController.cs
 ├── SriramShineShader/       # Shine shader + demo scene
 ├── Aryan Particle System/   # Sparkle particle system + demo scene
 ├── VasudhaCoinCounter/      # Coin counter scripts + prefabs
+├── Naveen/                  # Dynamic Order reference images
 ├── SpriteGlow/              # Sprite glow runtime + shader
 ├── Prefabs/Vedaant/         # LineBase.prefab, NodeBase.prefab
 └── Settings/                # PC_RPAsset.asset, Mobile_RPAsset.asset

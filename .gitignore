@@ -20,3 +20,5 @@ Recordings/
 .DS_Store
 .vscode/
 .idea/
+.serena/
+.vs/
