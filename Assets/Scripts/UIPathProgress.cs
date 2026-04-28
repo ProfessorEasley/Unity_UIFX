@@ -22,9 +22,11 @@ public class UIPathProgress : MonoBehaviour
     public bool loopPath = false;
 
     private readonly List<Image> _lines = new List<Image>();
+    private readonly List<RectTransform> _lineRoots = new List<RectTransform>();
     private readonly List<Image> _nodeFillImages = new List<Image>();
-    private readonly HashSet<int> _pulsedNodes = new HashSet<int>(); 
+    private readonly HashSet<int> _pulsedNodes = new HashSet<int>();
     private float[] _segmentNormalizedLengths;
+    private Image _firstNodeFill;
 
     private bool _builtAtRuntime = false;
 
@@ -68,25 +70,32 @@ public class UIPathProgress : MonoBehaviour
         ClearLines();
         _nodeFillImages.Clear();
         _pulsedNodes.Clear();
+        _firstNodeFill = null;
 
         if (linePrefab == null || nodes == null || nodes.Count < 2) return;
         if (linesParent == null) linesParent = (RectTransform)transform;
+
+        // Cache the first node's fill image separately — it has no preceding segment
+        Transform firstFillT = nodes[0].Find("Fill");
+        if (firstFillT != null) _firstNodeFill = firstFillT.GetComponent<Image>();
 
         int segments = loopPath ? nodes.Count : nodes.Count - 1;
 
         for (int i = 0; i < segments; i++)
         {
-            // 1. Instantiate the whole prefab root
             GameObject instance = Instantiate(linePrefab, linesParent);
             instance.name = $"Line_{i}";
 
-            // 2. Extract the Fill Image (searches for child named "Fill", defaults to root)
-            Image fillImage = null;
+            var lineRoot = (RectTransform)instance.transform;
+            _lineRoots.Add(lineRoot);
+
+            // Use "Fill" child if present, otherwise the root Image is the fill target
             Transform fillChild = instance.transform.Find("Fill");
-            fillImage = fillChild != null ? fillChild.GetComponent<Image>() : instance.GetComponent<Image>();
+            Image fillImage = fillChild != null
+                ? fillChild.GetComponent<Image>()
+                : instance.GetComponent<Image>();
             _lines.Add(fillImage);
 
-            // 3. Cache Node Fills
             Image nodeFill = null;
             Transform nodeFillTransform = nodes[(i + 1) % nodes.Count].Find("Fill");
             if (nodeFillTransform != null) nodeFill = nodeFillTransform.GetComponent<Image>();
@@ -98,8 +107,9 @@ public class UIPathProgress : MonoBehaviour
 
     private void ClearLines()
     {
-        foreach (var img in _lines) if (img != null) Destroy(img.transform.parent.gameObject);
+        foreach (var rt in _lineRoots) if (rt != null) Destroy(rt.gameObject);
         _lines.Clear();
+        _lineRoots.Clear();
     }
 
     // =========================
@@ -116,6 +126,10 @@ public class UIPathProgress : MonoBehaviour
         float start = startProgress;
         float end = endProgress;
         float accumulated = 0f;
+
+        // Node 0 has no preceding segment — it lights up as soon as any progress exists
+        if (_firstNodeFill != null)
+            _firstNodeFill.fillAmount = end > 0f ? 1f : 0f;
 
         for (int i = 0; i < _lines.Count; i++)
         {
@@ -136,12 +150,16 @@ public class UIPathProgress : MonoBehaviour
             if (_nodeFillImages[i] != null)
             {
                 _nodeFillImages[i].fillAmount = fillPercent;
-                
-                // Trigger Node Pop when fully filled
+
                 if (fillPercent >= 1.0f && !_pulsedNodes.Contains(i))
                 {
                     _pulsedNodes.Add(i);
                     StartCoroutine(PulseNode(nodes[(i + 1) % nodes.Count]));
+                }
+                else if (fillPercent < 1.0f)
+                {
+                    // Allow the pulse to re-fire if the slider is moved back then forward
+                    _pulsedNodes.Remove(i);
                 }
             }
             accumulated += segLen;
@@ -202,14 +220,13 @@ public class UIPathProgress : MonoBehaviour
 
     private void UpdateLineTransforms()
     {
-        for (int i = 0; i < _lines.Count; i++)
+        for (int i = 0; i < _lineRoots.Count; i++)
         {
             RectTransform a = nodes[i];
             RectTransform b = nodes[(i + 1) % nodes.Count];
             Vector2 dir = b.anchoredPosition - a.anchoredPosition;
-            
-            // Note: We rotate the Parent of the fill image to keep Background & Fill aligned
-            RectTransform lineRoot = (RectTransform)_lines[i].transform.parent;
+
+            RectTransform lineRoot = _lineRoots[i];
             lineRoot.pivot = new Vector2(0f, 0.5f);
             lineRoot.sizeDelta = new Vector2(dir.magnitude, lineRoot.sizeDelta.y);
             lineRoot.anchoredPosition = a.anchoredPosition;

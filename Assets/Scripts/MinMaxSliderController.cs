@@ -12,11 +12,13 @@ public class MinMaxSliderController : MonoBehaviour
     void Awake()
     {
         _path = GetComponent<UIPathProgress>();
-        if (startSlider != null) startSlider.onValueChanged.AddListener(OnStartSliderChanged);
-        if (endSlider != null) endSlider.onValueChanged.AddListener(OnEndSliderChanged);
-        // initialize UI from component
+        // Set initial values before registering listeners so the constraint logic
+        // doesn't fire with stale slider values (e.g. endSlider still at 0 when
+        // startSlider is initialized, which would incorrectly clamp startProgress).
         if (startSlider != null) startSlider.value = _path.startProgress;
         if (endSlider != null) endSlider.value = _path.endProgress;
+        if (startSlider != null) startSlider.onValueChanged.AddListener(OnStartSliderChanged);
+        if (endSlider != null) endSlider.onValueChanged.AddListener(OnEndSliderChanged);
     }
 
     void OnDestroy()

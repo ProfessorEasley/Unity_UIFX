@@ -91,7 +91,7 @@ namespace UIFX.Editor
         // Entry point
         // ──────────────────────────────────────────────────────────────
 
-        [MenuItem("UIFX/Create Shimmer Demo Scene")]
+        [MenuItem("UIFX/Shimmer/Create Demo Scene")]
         public static void Build()
         {
             var shimmerMat = AssetDatabase.LoadAssetAtPath<Material>(MaterialPath);
