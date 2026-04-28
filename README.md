@@ -28,71 +28,50 @@ If the editor is in Play mode when you click a menu item it exits play mode firs
 
 The browser teaser gallery is available at [Assets/UIFX/Demo/Videos/index.html](Assets/UIFX/Demo/Videos/index.html). It condenses all seven showcase clips into feature tabs.
 
-For Markdown renderers that allow inline HTML video, the same clips also appear below as a compact teaser grid. Videos are muted, looped, and set to autoplay where the browser permits it.
+The README uses animated GIF previews for Markdown/GitHub compatibility. Click any preview or "Open video" link to play the full `.webm` clip.
 
 <table>
   <tr>
     <td width="50%">
       <strong>UIShimmer</strong><br>
-      <video controls autoplay muted loop playsinline preload="auto" width="100%">
-        <source src="Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm" type="video/webm">
-        <a href="Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm">Open clip</a>
-      </video><br>
-      <a href="Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm">Open clip</a> · <a href="Assets/UIFX/Demo/Videos/UIShimmer/README.md">Video README</a>
+      <a href="Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm"><img src="Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-preview.gif" alt="UIShimmer preview" width="100%"></a><br>
+      <a href="Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm">Open video</a> · <a href="Assets/UIFX/Demo/Videos/UIShimmer/README.md">Video README</a>
     </td>
     <td width="50%">
       <strong>UIPathProgress</strong><br>
-      <video controls autoplay muted loop playsinline preload="auto" width="100%">
-        <source src="Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm" type="video/webm">
-        <a href="Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm">Open clip</a>
-      </video><br>
-      <a href="Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm">Open clip</a> · <a href="Assets/UIFX/Demo/Videos/PathProgress/README.md">Video README</a>
+      <a href="Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm"><img src="Assets/UIFX/Demo/Videos/PathProgress/path-progress-preview.gif" alt="UIPathProgress preview" width="100%"></a><br>
+      <a href="Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm">Open video</a> · <a href="Assets/UIFX/Demo/Videos/PathProgress/README.md">Video README</a>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <strong>Button Shine/Ripple</strong><br>
-      <video controls autoplay muted loop playsinline preload="auto" width="100%">
-        <source src="Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm" type="video/webm">
-        <a href="Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm">Open clip</a>
-      </video><br>
-      <a href="Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm">Open clip</a> · <a href="Assets/UIFX/Demo/Videos/ShineShader/README.md">Video README</a>
+      <a href="Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm"><img src="Assets/UIFX/Demo/Videos/ShineShader/shine-shader-preview.gif" alt="Button Shine/Ripple preview" width="100%"></a><br>
+      <a href="Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm">Open video</a> · <a href="Assets/UIFX/Demo/Videos/ShineShader/README.md">Video README</a>
     </td>
     <td width="50%">
       <strong>uGUI Sparkle Particles</strong><br>
-      <video controls autoplay muted loop playsinline preload="auto" width="100%">
-        <source src="Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm" type="video/webm">
-        <a href="Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm">Open clip</a>
-      </video><br>
-      <a href="Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm">Open clip</a> · <a href="Assets/UIFX/Demo/Videos/SparkleParticles/README.md">Video README</a>
+      <a href="Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm"><img src="Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-preview.gif" alt="uGUI Sparkle Particles preview" width="100%"></a><br>
+      <a href="Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm">Open video</a> · <a href="Assets/UIFX/Demo/Videos/SparkleParticles/README.md">Video README</a>
     </td>
   </tr>
   <tr>
     <td width="50%">
       <strong>Animated Coin Counter</strong><br>
-      <video controls autoplay muted loop playsinline preload="auto" width="100%">
-        <source src="Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm" type="video/webm">
-        <a href="Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm">Open clip</a>
-      </video><br>
-      <a href="Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm">Open clip</a> · <a href="Assets/UIFX/Demo/Videos/CoinCounter/README.md">Video README</a>
+      <a href="Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm"><img src="Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-preview.gif" alt="Animated Coin Counter preview" width="100%"></a><br>
+      <a href="Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm">Open video</a> · <a href="Assets/UIFX/Demo/Videos/CoinCounter/README.md">Video README</a>
     </td>
     <td width="50%">
       <strong>Sprite Glow Outline</strong><br>
-      <video controls autoplay muted loop playsinline preload="auto" width="100%">
-        <source src="Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm" type="video/webm">
-        <a href="Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm">Open clip</a>
-      </video><br>
-      <a href="Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm">Open clip</a> · <a href="Assets/UIFX/Demo/Videos/SpriteGlow/README.md">Video README</a>
+      <a href="Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm"><img src="Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-preview.gif" alt="Sprite Glow Outline preview" width="100%"></a><br>
+      <a href="Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm">Open video</a> · <a href="Assets/UIFX/Demo/Videos/SpriteGlow/README.md">Video README</a>
     </td>
   </tr>
   <tr>
     <td colspan="2">
       <strong>Dynamic Ordering System</strong><br>
-      <video controls autoplay muted loop playsinline preload="auto" width="100%">
-        <source src="Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm" type="video/webm">
-        <a href="Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm">Open clip</a>
-      </video><br>
-      <a href="Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm">Open clip</a> · <a href="Assets/UIFX/Demo/Videos/DynamicOrder/README.md">Video README</a>
+      <a href="Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm"><img src="Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-preview.gif" alt="Dynamic Ordering System preview" width="100%"></a><br>
+      <a href="Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm">Open video</a> · <a href="Assets/UIFX/Demo/Videos/DynamicOrder/README.md">Video README</a>
     </td>
   </tr>
 </table>
