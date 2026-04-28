@@ -8,11 +8,11 @@ A Unity 6.3 LTS UI effects framework built on the Universal Render Pipeline (URP
 
 ## Opening a Demo
 
-Every effect has a demo scene reachable from the editor menu bar:
+Every effect has a styled showcase scene reachable from the editor menu bar. The menu opens the polished UIFX demo scenes under `Assets/UIFX/Demo/Scenes` by default.
 
 | Menu item | Effect | Author |
 |---|---|---|
-| **UIFX › Shimmer › Create Demo Scene** | UIShimmer | Jing Yang |
+| **UIFX › Shimmer › Open Demo Scene** | UIShimmer | Jing Yang |
 | **UIFX › Path Progress › Open Demo Scene** | UIPathProgress | Vedaant Rajeshirke |
 | **UIFX › Shine Shader › Open Demo Scene** | Button Shine/Ripple | Sriram Subramanian |
 | **UIFX › Sparkle Particles › Open Demo Scene** | uGUI Sparkle Particles | Aryan Shah |
@@ -20,7 +20,7 @@ Every effect has a demo scene reachable from the editor menu bar:
 | **UIFX › Sprite Glow › Open Demo Scene** | Sprite Glow Outline | Aryaman Kunwar |
 | **UIFX › Dynamic Order › Open Demo Scene** | Dynamic Ordering System | Naveen Prakaasham Vairaprakasam |
 
-If the editor is in Play mode when you click a menu item it exits play mode first, then loads the scene.
+If a styled scene is missing, the menu rebuilds it first. If the editor is in Play mode when you click a menu item it exits play mode first, then loads the scene.
 
 ---
 
@@ -172,7 +172,7 @@ item.Deselect();                           // clear highlight
 
 All animations use native Unity coroutines — no DOTween dependency.
 
-**Demo:** run **UIFX > Dynamic Order > Open Demo Scene** — the scene is auto-created on first open.
+**Demo:** run **UIFX > Dynamic Order > Open Demo Scene** — the styled scene is opened by default and rebuilt automatically if missing.
 
 ---
 
@@ -199,10 +199,10 @@ Adds an HDR outline around a `SpriteRenderer`'s sprite borders via a `MaterialPr
 Assets/
 ├── UIFX/
 │   ├── Demo/
-│   │   ├── Scenes/         # UIShimmerDemo.unity, Vedaant_Demo.unity, UIFX_Catalog.unity
-│   │   ├── Scripts/        # UIShimmerDemoController.cs
+│   │   ├── Scenes/         # Styled showcase scenes for all UIFX features
+│   │   ├── Scripts/        # Styled showcase controllers
 │   │   └── Videos/         # Feature showcase captures and per-feature README files
-│   ├── Editor/              # UIFXMenuItems.cs, UIShimmerSetup.cs, UIShimmerDemoBuilder.cs, UIDynamicOrderDemoBuilder.cs
+│   ├── Editor/              # Menu items, setup, and styled scene builders
 │   └── Runtime/
 │       ├── Materials/       # UIShimmer.mat (auto-created)
 │       └── Scripts/

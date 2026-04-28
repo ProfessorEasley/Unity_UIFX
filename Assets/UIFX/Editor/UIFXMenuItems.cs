@@ -12,41 +12,40 @@ namespace UIFX.Editor
     /// </summary>
     public static class UIFXMenuItems
     {
+        // ── Shimmer (Jing) ───────────────────────────────────────────────────
+        [MenuItem("UIFX/Shimmer/Open Demo Scene")]
+        static void OpenShimmerDemo() =>
+            OpenStyledScene(UIFXStyledDemoBuilder.ShimmerScene, UIFXStyledDemoBuilder.BuildShimmerScene);
+
         // ── Path Progress (Vedaant) ──────────────────────────────────────────
         [MenuItem("UIFX/Path Progress/Open Demo Scene")]
         static void OpenPathProgressDemo() =>
-            OpenScene("Assets/UIFX/Demo/Scenes/Vedaant_Demo.unity");
+            OpenStyledScene(UIFXStyledDemoBuilder.PathProgressScene, UIFXStyledDemoBuilder.BuildPathProgressScene);
 
         // ── Shine Shader (Sriram) ────────────────────────────────────────────
         [MenuItem("UIFX/Shine Shader/Open Demo Scene")]
         static void OpenShineShaderDemo() =>
-            OpenScene("Assets/SriramShineShader/Scenes/SampleScene.unity");
+            OpenStyledScene(UIFXStyledDemoBuilder.ShineShaderScene, UIFXStyledDemoBuilder.BuildShineShaderScene);
 
         // ── Sparkle Particles (Aryan) ────────────────────────────────────────
         [MenuItem("UIFX/Sparkle Particles/Open Demo Scene")]
         static void OpenSparkleDemo() =>
-            OpenScene("Assets/Aryan Particle System/Scenes/SampleScene.unity");
+            OpenStyledScene(UIFXStyledDemoBuilder.SparkleParticlesScene, UIFXStyledDemoBuilder.BuildSparkleParticlesScene);
 
         // ── Coin Counter (Vasudha) ───────────────────────────────────────────
         [MenuItem("UIFX/Coin Counter/Open Demo Scene")]
         static void OpenCoinCounterDemo() =>
-            OpenScene("Assets/VasudhaCoinCounter/CoinCounterPrefab.unity");
+            OpenStyledScene(UIFXStyledDemoBuilder.CoinCounterScene, UIFXStyledDemoBuilder.BuildCoinCounterScene);
 
         // ── Sprite Glow (Aryaman) ────────────────────────────────────────────
         [MenuItem("UIFX/Sprite Glow/Open Demo Scene")]
         static void OpenSpriteGlowDemo() =>
-            OpenScene("Assets/Scenes/TestBehaviour.unity");
+            OpenStyledScene(UIFXStyledDemoBuilder.SpriteGlowScene, UIFXStyledDemoBuilder.BuildSpriteGlowScene);
 
         // ── Dynamic Order (Naveen) ───────────────────────────────────────────
         [MenuItem("UIFX/Dynamic Order/Open Demo Scene")]
         static void OpenDynamicOrderDemo()
-        {
-            const string path = "Assets/UIFX/Demo/Scenes/DynamicOrderDemo.unity";
-            if (AssetDatabase.LoadAssetAtPath<Object>(path) == null)
-                UIDynamicOrderDemoBuilder.Build();
-            else
-                OpenScene(path);
-        }
+            => OpenStyledScene(UIFXStyledDemoBuilder.DynamicOrderScene, UIFXStyledDemoBuilder.BuildDynamicOrderScene);
 
         // ── Helpers ──────────────────────────────────────────────────────────
 
@@ -80,6 +79,14 @@ namespace UIFX.Editor
         {
             if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                 EditorSceneManager.OpenScene(assetPath, OpenSceneMode.Single);
+        }
+
+        static void OpenStyledScene(string assetPath, System.Action buildScene)
+        {
+            if (string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(assetPath)))
+                buildScene();
+
+            OpenScene(assetPath);
         }
     }
 }
