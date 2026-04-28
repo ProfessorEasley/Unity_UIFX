@@ -24,7 +24,7 @@ namespace UIFX.Editor
         const string ShineMaterialPath = "Assets/SriramShineShader/Diag_UI_ShinyButton_DiagonalFlash.mat";
 
         static readonly Vector2 RefResolution = new Vector2(1280f, 720f);
-        static readonly Color StageBg = new Color(0.045f, 0.065f, 0.09f);
+        static readonly Color StageBg = new Color(0.006f, 0.009f, 0.013f);
         static readonly Color Panel = new Color(0.075f, 0.105f, 0.145f);
         static readonly Color MutedText = new Color(0.66f, 0.72f, 0.80f);
         static readonly Color Line = new Color(0.18f, 0.25f, 0.34f);
@@ -63,13 +63,14 @@ namespace UIFX.Editor
             };
 
             var effects = new UIShimmerEffect[cards.Length];
+            var previewBands = new GameObject[cards.Length];
             Vector2 start = new Vector2(-330f, 125f);
             for (int i = 0; i < cards.Length; i++)
             {
                 int col = i % 3;
                 int row = i / 3;
                 effects[i] = CreateShimmerCard(canvas, cards[i], shimmerMat,
-                    start + new Vector2(col * 260f, -row * 145f));
+                    start + new Vector2(col * 260f, -row * 145f), out previewBands[i]);
             }
 
             CreateCommandButton(canvas, "Trigger All", new Vector2(0f, -252f), new Vector2(220f, 50f),
@@ -81,6 +82,7 @@ namespace UIFX.Editor
             cardsProp.arraySize = effects.Length;
             for (int i = 0; i < effects.Length; i++)
                 cardsProp.GetArrayElementAtIndex(i).objectReferenceValue = effects[i];
+            AssignArray(so.FindProperty("playModeHiddenObjects"), previewBands);
             so.ApplyModifiedPropertiesWithoutUndo();
 
             SaveScene(ShimmerScene);
@@ -103,16 +105,14 @@ namespace UIFX.Editor
             var fills = new RectTransform[points.Length - 1];
             var lengths = new float[points.Length - 1];
             for (int i = 0; i < points.Length - 1; i++)
-            {
                 fills[i] = CreatePathSegment(canvas, points[i], points[i + 1], out lengths[i]);
-                fills[i].sizeDelta = new Vector2(lengths[i] * 0.28f, fills[i].sizeDelta.y);
-            }
 
             var nodeFills = new Image[points.Length];
             for (int i = 0; i < points.Length; i++)
                 nodeFills[i] = CreatePathNode(canvas, points[i], i + 1, i < 2);
 
             var head = CreateGlowDot(canvas, "LeadHead", new Vector2(-350f, 5f), 22f, new Color(0.38f, 1f, 0.86f));
+            ApplyPathPreview(fills, lengths, nodeFills, head, points, 0.16f);
             CreateRangeSlider(canvas, new Vector2(0f, -270f));
 
             var controller = CreateController(canvas, UIFXStyledDemoController.DemoKind.PathProgress);
@@ -204,7 +204,12 @@ namespace UIFX.Editor
             sparkle.fillPerClick = 0.18f;
             sparkle.fillPerParticle = 0.015f;
             sparkle.sparkleColor = new Color(0.38f, 1f, 0.86f);
+            sparkle.hueVariance = 0.14f;
+            sparkle.preserveInitialFill = true;
+            sparkle.emptyFillColor = new Color(0.14f, 0.82f, 1f);
+            sparkle.fullFillColor = new Color(0.55f, 1f, 0.42f);
 
+            CreateSparklePreviewField(canvas);
             CreateSwatches(canvas, new Vector2(-120f, -145f));
 
             var controller = CreateController(canvas, UIFXStyledDemoController.DemoKind.SparkleParticles);
@@ -222,9 +227,9 @@ namespace UIFX.Editor
             var canvas = BeginScene("Animated Coin Counter", "ease-out number punch");
 
             var panel = CreateImage(canvas, "CoinPanel", Vector2.zero, new Vector2(600f, 250f),
-                new Color(0.08f, 0.13f, 0.19f));
-            AddOutline(panel.gameObject, new Color(0.26f, 0.34f, 0.43f), new Vector2(2f, -2f));
-            AddShadow(panel.gameObject, new Color(1f, 0.74f, 0.18f, 0.30f), new Vector2(0f, -9f));
+                new Color(0.02f, 0.12f, 0.04f));
+            AddOutline(panel.gameObject, new Color(0.17f, 0.55f, 0.25f), new Vector2(2f, -2f));
+            AddShadow(panel.gameObject, new Color(0.22f, 0.95f, 0.25f, 0.22f), new Vector2(0f, -9f));
 
             var coinIcon = CreateCoin(panel.transform, new Vector2(-155f, 0f), 62f);
             var value = CreateLabel(panel.transform, "2,614", new Vector2(65f, 2f), new Vector2(330f, 72f),
@@ -239,9 +244,30 @@ namespace UIFX.Editor
             counterSo.FindProperty("punchScale").floatValue = 1.10f;
             counterSo.ApplyModifiedPropertiesWithoutUndo();
 
-            var burstCoins = new RectTransform[18];
+            var previewCoinPositions = new[]
+            {
+                new Vector2(-235f, 72f),
+                new Vector2(-208f, 48f),
+                new Vector2(-190f, 18f),
+                new Vector2(-218f, -18f),
+                new Vector2(-175f, -52f),
+                new Vector2(-102f, -62f),
+                new Vector2(12f, -66f),
+                new Vector2(90f, -58f),
+                new Vector2(-320f, -112f),
+                new Vector2(-425f, -182f),
+                new Vector2(-540f, -252f),
+                new Vector2(262f, -222f),
+                new Vector2(430f, -132f),
+                new Vector2(535f, -230f),
+                new Vector2(-272f, 18f),
+                new Vector2(-145f, 26f),
+                new Vector2(-58f, -12f),
+                new Vector2(42f, -28f),
+            };
+            var burstCoins = new RectTransform[previewCoinPositions.Length];
             for (int i = 0; i < burstCoins.Length; i++)
-                burstCoins[i] = CreateCoin(canvas, new Vector2(-430f + (i % 7) * 120f, -300f), 16f + (i % 3) * 3f).rectTransform;
+                burstCoins[i] = CreateCoin(canvas, previewCoinPositions[i], 14f + (i % 4) * 3f).rectTransform;
 
             var controller = CreateController(canvas, UIFXStyledDemoController.DemoKind.CoinCounter);
             var so = new SerializedObject(controller);
@@ -384,6 +410,82 @@ namespace UIFX.Editor
             }
         }
 
+        static void ApplyPathPreview(
+            RectTransform[] fills,
+            float[] lengths,
+            Image[] nodes,
+            RectTransform head,
+            Vector2[] points,
+            float progress)
+        {
+            float totalLength = 0f;
+            foreach (float length in lengths)
+                totalLength += Mathf.Max(0.001f, length);
+
+            float filledLength = totalLength * Mathf.Clamp01(progress);
+            float accumulated = 0f;
+            for (int i = 0; i < fills.Length; i++)
+            {
+                float segmentLength = Mathf.Max(0.001f, lengths[i]);
+                float fill = Mathf.Clamp01((filledLength - accumulated) / segmentLength);
+                fills[i].sizeDelta = new Vector2(segmentLength * fill, fills[i].sizeDelta.y);
+                accumulated += segmentLength;
+            }
+
+            float nodeStep = 1f / Mathf.Max(1, nodes.Length - 1);
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                bool active = progress >= i * nodeStep - 0.03f;
+                nodes[i].color = active
+                    ? new Color(0.22f, 0.92f, 0.78f, 1f)
+                    : new Color(0.18f, 0.24f, 0.34f, 1f);
+            }
+
+            accumulated = 0f;
+            for (int i = 0; i < lengths.Length; i++)
+            {
+                float segmentLength = Mathf.Max(0.001f, lengths[i]);
+                if (filledLength <= accumulated + segmentLength || i == lengths.Length - 1)
+                {
+                    float local = Mathf.Clamp01((filledLength - accumulated) / segmentLength);
+                    head.anchoredPosition = Vector2.Lerp(points[i], points[i + 1], local);
+                    return;
+                }
+                accumulated += segmentLength;
+            }
+        }
+
+        static void CreateSparklePreviewField(Transform parent)
+        {
+            var sparkles = new[]
+            {
+                new SparkleGlyph("+", new Vector2(-615f, 80f), 24f, new Color(0.25f, 1f, 0.92f)),
+                new SparkleGlyph("+", new Vector2(-575f, 48f), 18f, new Color(0.25f, 1f, 0.92f)),
+                new SparkleGlyph("+", new Vector2(-540f, 18f), 16f, new Color(0.45f, 1f, 0.95f)),
+                new SparkleGlyph("*", new Vector2(-365f, 168f), 24f, new Color(1f, 0.88f, 0.22f)),
+                new SparkleGlyph("*", new Vector2(-214f, 72f), 22f, new Color(1f, 0.88f, 0.22f)),
+                new SparkleGlyph("+", new Vector2(-118f, -28f), 19f, new Color(0.35f, 1f, 0.94f)),
+                new SparkleGlyph("+", new Vector2(-60f, -18f), 16f, new Color(0.55f, 1f, 0.98f)),
+                new SparkleGlyph("*", new Vector2(92f, 170f), 25f, new Color(1f, 0.92f, 0.32f)),
+                new SparkleGlyph("*", new Vector2(210f, 214f), 20f, new Color(1f, 0.92f, 0.32f)),
+                new SparkleGlyph("*", new Vector2(286f, 74f), 22f, new Color(0.64f, 1f, 0.28f)),
+                new SparkleGlyph("+", new Vector2(420f, 42f), 20f, new Color(0.54f, 1f, 0.35f)),
+                new SparkleGlyph("+", new Vector2(516f, 72f), 26f, new Color(0.48f, 1f, 0.34f)),
+                new SparkleGlyph("*", new Vector2(592f, 182f), 18f, new Color(1f, 0.92f, 0.32f)),
+                new SparkleGlyph("+", new Vector2(570f, 20f), 16f, new Color(0.42f, 1f, 0.38f)),
+                new SparkleGlyph("+", new Vector2(-336f, -86f), 18f, Color.white),
+                new SparkleGlyph("*", new Vector2(24f, -116f), 20f, Color.white),
+            };
+
+            foreach (var sparkle in sparkles)
+            {
+                var label = CreateLabel(parent, sparkle.glyph, sparkle.position, Vector2.one * (sparkle.size * 1.5f),
+                    sparkle.size, sparkle.color, FontStyles.Bold);
+                AddShadow(label.gameObject, sparkle.color, Vector2.zero);
+                label.raycastTarget = false;
+            }
+        }
+
         static UIFXStyledDemoController CreateController(Transform parent, UIFXStyledDemoController.DemoKind kind)
         {
             var go = new GameObject("StyledDemoController", typeof(RectTransform));
@@ -395,9 +497,10 @@ namespace UIFX.Editor
             return controller;
         }
 
-        static UIShimmerEffect CreateShimmerCard(Transform parent, ShimmerCard card, Material shimmerMat, Vector2 pos)
+        static UIShimmerEffect CreateShimmerCard(Transform parent, ShimmerCard card, Material shimmerMat, Vector2 pos, out GameObject previewBand)
         {
             var image = CreateImage(parent, card.label, pos, new Vector2(232f, 112f), card.background);
+            image.gameObject.AddComponent<RectMask2D>();
             AddShadow(image.gameObject, new Color(0f, 0f, 0f, 0.35f), new Vector2(0f, -8f));
             AddOutline(image.gameObject, new Color(1f, 1f, 1f, 0.10f), new Vector2(2f, -2f));
 
@@ -419,6 +522,11 @@ namespace UIFX.Editor
             detail.alignment = TextAlignmentOptions.Left;
 
             CreateImage(image.transform, "Swatch", new Vector2(88f, -34f), new Vector2(18f, 18f), card.shimmer);
+            var bandColor = new Color(card.shimmer.r, card.shimmer.g, card.shimmer.b, 0.34f);
+            var band = CreateImage(image.transform, "EditPreviewSweep", new Vector2(-42f, 6f), new Vector2(34f, 190f), bandColor);
+            band.rectTransform.localRotation = Quaternion.Euler(0f, 0f, -card.angle);
+            band.raycastTarget = false;
+            previewBand = band.gameObject;
             return fx;
         }
 
@@ -733,6 +841,22 @@ namespace UIFX.Editor
             public DynamicItem(string label, Color color)
             {
                 this.label = label;
+                this.color = color;
+            }
+        }
+
+        readonly struct SparkleGlyph
+        {
+            public readonly string glyph;
+            public readonly Vector2 position;
+            public readonly float size;
+            public readonly Color color;
+
+            public SparkleGlyph(string glyph, Vector2 position, float size, Color color)
+            {
+                this.glyph = glyph;
+                this.position = position;
+                this.size = size;
                 this.color = color;
             }
         }

@@ -29,6 +29,11 @@ public class UISparkleLoop : MonoBehaviour
     [Range(0.05f, 1f)] public float fillPerClick = 0.2f;          // how much each click adds
     [Range(0.005f, 0.1f)] public float fillPerParticle = 0.02f;   // how much each particle adds
 
+    [Header("Fill Style")]
+    public bool preserveInitialFill = false;
+    public Color emptyFillColor = Color.red;
+    public Color fullFillColor = Color.green;
+
     // ── Private ───────────────────────────────────────────────
     private readonly List<UISparkleParticle> _pool = new List<UISparkleParticle>();
     private RectTransform _selfRect;
@@ -50,8 +55,9 @@ public class UISparkleLoop : MonoBehaviour
 
         if (healthBarFill != null)
         {
-            healthBarFill.fillAmount = 0f;
-            healthBarFill.color = Color.red;
+            _currentFill = preserveInitialFill ? healthBarFill.fillAmount : 0f;
+            _targetFill = _currentFill;
+            ApplyFillVisual(_currentFill);
         }
     }
 
@@ -79,8 +85,7 @@ public class UISparkleLoop : MonoBehaviour
         foreach (var p in _pool) Deactivate(p);
         if (healthBarFill != null)
         {
-            healthBarFill.fillAmount = 0f;
-            healthBarFill.color = Color.red;
+            ApplyFillVisual(0f);
         }
     }
 
@@ -222,10 +227,7 @@ public class UISparkleLoop : MonoBehaviour
                 {
                     _currentFill = Mathf.Min(_targetFill, _currentFill + fillPerParticle);
                     if (healthBarFill != null)
-                    {
-                        healthBarFill.fillAmount = _currentFill;
-                        healthBarFill.color = Color.Lerp(Color.red, Color.green, _currentFill);
-                    }
+                        ApplyFillVisual(_currentFill);
                 }
                 Deactivate(p);
                 continue;
@@ -277,6 +279,15 @@ public class UISparkleLoop : MonoBehaviour
     private Camera GetCanvasCamera() =>
         _canvas != null && _canvas.renderMode != RenderMode.ScreenSpaceOverlay
             ? _canvas.worldCamera : null;
+
+    private void ApplyFillVisual(float fill)
+    {
+        if (healthBarFill == null) return;
+
+        float clamped = Mathf.Clamp01(fill);
+        healthBarFill.fillAmount = clamped;
+        healthBarFill.color = Color.Lerp(emptyFillColor, fullFillColor, clamped);
+    }
 
 #if UNITY_EDITOR
     private void OnValidate()

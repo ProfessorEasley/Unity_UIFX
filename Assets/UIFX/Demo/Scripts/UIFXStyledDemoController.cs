@@ -54,12 +54,18 @@ namespace UIFX.Demo
         [SerializeField] UIDynamicOrderSystem dynamicOrderSystem;
         [SerializeField] UIDynamicOrderItem[] dynamicItems;
 
+        [Header("Edit Mode Preview")]
+        [SerializeField] GameObject[] playModeHiddenObjects;
+
         Material _shineMaterial;
         float _timer;
         float _nextAction;
 
         void Start()
         {
+            HidePlayModeHiddenObjects();
+            SeedTeaserTiming();
+
             if (shineButton != null && shineButton.material != null)
             {
                 _shineMaterial = Instantiate(shineButton.material);
@@ -101,6 +107,37 @@ namespace UIFX.Demo
         {
             if (_shineMaterial != null)
                 Destroy(_shineMaterial);
+        }
+
+        void HidePlayModeHiddenObjects()
+        {
+            if (playModeHiddenObjects == null) return;
+
+            foreach (var obj in playModeHiddenObjects)
+                if (obj != null)
+                    obj.SetActive(false);
+        }
+
+        void SeedTeaserTiming()
+        {
+            switch (demoKind)
+            {
+                case DemoKind.Shimmer:
+                    _nextAction = 0.18f;
+                    break;
+                case DemoKind.PathProgress:
+                    _timer = 1.18f;
+                    break;
+                case DemoKind.ShineShader:
+                    _timer = 0.35f;
+                    break;
+                case DemoKind.SparkleParticles:
+                    _nextAction = 0.65f;
+                    break;
+                case DemoKind.CoinCounter:
+                    _nextAction = 0.9f;
+                    break;
+            }
         }
 
         void UpdateShimmer()

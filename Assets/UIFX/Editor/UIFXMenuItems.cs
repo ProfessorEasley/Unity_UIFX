@@ -1,6 +1,5 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 
 namespace UIFX.Editor
 {
@@ -49,44 +48,26 @@ namespace UIFX.Editor
 
         // ── Helpers ──────────────────────────────────────────────────────────
 
-        static void OpenScene(string assetPath)
+        static void OpenStyledScene(string assetPath, System.Action buildScene)
         {
-            if (string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(assetPath)))
-            {
-                Debug.LogWarning($"[UIFX] Scene not found: {assetPath}");
-                return;
-            }
-
             if (EditorApplication.isPlaying)
             {
-                // Exit play mode first; load the scene once the editor is back in edit mode.
                 void OnStateChanged(PlayModeStateChange state)
                 {
                     if (state != PlayModeStateChange.EnteredEditMode) return;
                     EditorApplication.playModeStateChanged -= OnStateChanged;
-                    LoadScene(assetPath);
+                    OpenStyledScene(assetPath, buildScene);
                 }
                 EditorApplication.playModeStateChanged += OnStateChanged;
                 EditorApplication.isPlaying = false;
+                return;
             }
-            else
-            {
-                LoadScene(assetPath);
-            }
-        }
 
-        static void LoadScene(string assetPath)
-        {
-            if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-                EditorSceneManager.OpenScene(assetPath, OpenSceneMode.Single);
-        }
+            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                return;
 
-        static void OpenStyledScene(string assetPath, System.Action buildScene)
-        {
-            if (string.IsNullOrEmpty(AssetDatabase.AssetPathToGUID(assetPath)))
-                buildScene();
-
-            OpenScene(assetPath);
+            buildScene();
+            EditorSceneManager.OpenScene(assetPath, OpenSceneMode.Single);
         }
     }
 }

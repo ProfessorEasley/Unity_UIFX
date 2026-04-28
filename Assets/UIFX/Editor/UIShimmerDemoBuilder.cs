@@ -12,7 +12,7 @@ namespace UIFX.Editor
 {
     /// <summary>
     /// Builds the UIShimmer effect demo scene programmatically.
-    /// Run via:  UIFX > Create Shimmer Demo Scene
+    /// Legacy builder entry point. The visible menu now opens the styled demo scene.
     ///
     /// Prerequisites: run "UIFX > Create UIShimmer Material" first.
     /// The builder will offer to do this automatically if the material is missing.

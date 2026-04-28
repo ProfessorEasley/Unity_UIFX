@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections;
+using System.Globalization;
 
 public class UIFX_CoinCounter : MonoBehaviour
 {
@@ -12,6 +13,15 @@ public class UIFX_CoinCounter : MonoBehaviour
 
     private int currentValue = 0;
     private Coroutine running;
+
+    private void Awake()
+    {
+        if (valueText == null) return;
+
+        string normalized = valueText.text.Replace(",", string.Empty);
+        if (int.TryParse(normalized, NumberStyles.Integer, CultureInfo.InvariantCulture, out int parsed))
+            currentValue = parsed;
+    }
 
     public void Play(int newValue)
     {
@@ -34,7 +44,7 @@ public class UIFX_CoinCounter : MonoBehaviour
             float eased = 1f - Mathf.Pow(1f - t, 3f);
 
             float value = Mathf.Lerp(start, end, eased);
-            valueText.text = Mathf.RoundToInt(value).ToString();
+            valueText.text = FormatValue(Mathf.RoundToInt(value));
 
             float punch = Mathf.Sin(t * Mathf.PI);
             target.localScale = originalScale * Mathf.Lerp(1f, punchScale, punch);
@@ -42,9 +52,12 @@ public class UIFX_CoinCounter : MonoBehaviour
             yield return null;
         }
 
-        valueText.text = end.ToString();
+        valueText.text = FormatValue(end);
         target.localScale = originalScale;
 
         currentValue = end;
     }
+
+    private static string FormatValue(int value) =>
+        value.ToString("N0", CultureInfo.InvariantCulture);
 }
