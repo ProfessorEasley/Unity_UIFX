@@ -39,8 +39,14 @@ namespace UIFX.Editor
 
         // ── Dynamic Order (Naveen) ───────────────────────────────────────────
         [MenuItem("UIFX/Dynamic Order/Open Demo Scene")]
-        static void OpenDynamicOrderDemo() =>
-            OpenScene("Assets/UIFX/Demo/Scenes/DynamicOrderDemo.unity");
+        static void OpenDynamicOrderDemo()
+        {
+            const string path = "Assets/UIFX/Demo/Scenes/DynamicOrderDemo.unity";
+            if (AssetDatabase.LoadAssetAtPath<Object>(path) == null)
+                UIDynamicOrderDemoBuilder.Build();
+            else
+                OpenScene(path);
+        }
 
         // ── Helpers ──────────────────────────────────────────────────────────
 

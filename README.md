@@ -18,7 +18,7 @@ Every effect has a demo scene reachable from the editor menu bar:
 | **UIFX › Sparkle Particles › Open Demo Scene** | uGUI Sparkle Particles | Aryan Shah |
 | **UIFX › Coin Counter › Open Demo Scene** | Animated Coin Counter | Vasudha Padala |
 | **UIFX › Sprite Glow › Open Demo Scene** | Sprite Glow Outline | Aryaman Kunwar |
-| **UIFX › Dynamic Order › Create Demo Scene** | Dynamic Ordering System | Naveen Prakaasham Vairaprakasam |
+| **UIFX › Dynamic Order › Open Demo Scene** | Dynamic Ordering System | Naveen Prakaasham Vairaprakasam |
 
 If the editor is in Play mode when you click a menu item it exits play mode first, then loads the scene.
 
@@ -118,7 +118,7 @@ item.Deselect();                           // clear highlight
 
 All animations use native Unity coroutines — no DOTween dependency.
 
-**Demo:** run **UIFX > Dynamic Order > Create Demo Scene** to generate a scene with 5 labeled items, position buttons, and a reset button.
+**Demo:** run **UIFX > Dynamic Order > Open Demo Scene** — the scene is auto-created on first open.
 
 ---
 

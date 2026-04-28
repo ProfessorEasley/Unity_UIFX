@@ -14,6 +14,8 @@ namespace UIFX.Editor
         const string ScenePath = "Assets/UIFX/Demo/Scenes/DynamicOrderDemo.unity";
         static readonly Vector2 RefResolution = new Vector2(1920, 1080);
 
+        const string FontPath = "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset";
+
         const float ItemWidth = 500f;
         const float ItemHeight = 70f;
         const float ItemSpacing = 14f;
@@ -27,16 +29,35 @@ namespace UIFX.Editor
 
         static readonly ItemConfig[] Items = new ItemConfig[]
         {
-            new ItemConfig { label = "Alpha",   bgColor = new Color(0.18f, 0.13f, 0.13f) },
-            new ItemConfig { label = "Beta",    bgColor = new Color(0.13f, 0.18f, 0.14f) },
-            new ItemConfig { label = "Gamma",   bgColor = new Color(0.13f, 0.14f, 0.20f) },
-            new ItemConfig { label = "Delta",   bgColor = new Color(0.18f, 0.16f, 0.11f) },
-            new ItemConfig { label = "Epsilon", bgColor = new Color(0.15f, 0.13f, 0.19f) },
+            new ItemConfig { label = "Alpha",   bgColor = new Color(0.35f, 0.22f, 0.22f) },
+            new ItemConfig { label = "Beta",    bgColor = new Color(0.22f, 0.35f, 0.25f) },
+            new ItemConfig { label = "Gamma",   bgColor = new Color(0.22f, 0.25f, 0.40f) },
+            new ItemConfig { label = "Delta",   bgColor = new Color(0.38f, 0.32f, 0.18f) },
+            new ItemConfig { label = "Epsilon", bgColor = new Color(0.30f, 0.22f, 0.38f) },
         };
 
-        [MenuItem("UIFX/Dynamic Order/Create Demo Scene")]
+        static TMP_FontAsset _fontAsset;
+
         public static void Build()
         {
+            _fontAsset = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(FontPath);
+            if (_fontAsset == null)
+            {
+                Debug.LogWarning("[UIFX] TMP font not found at " + FontPath + ". Import TMP Essential Resources first.");
+            }
+            else if (_fontAsset.material != null)
+            {
+                var sdfShader = Shader.Find("TextMeshPro/Distance Field");
+                if (sdfShader == null)
+                    sdfShader = Shader.Find("TextMeshPro/Mobile/Distance Field");
+                if (sdfShader != null && _fontAsset.material.shader != sdfShader)
+                {
+                    _fontAsset.material.shader = sdfShader;
+                    EditorUtility.SetDirty(_fontAsset.material);
+                    AssetDatabase.SaveAssets();
+                }
+            }
+
             var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
 
             SetupCamera();
@@ -83,7 +104,7 @@ namespace UIFX.Editor
         {
             var cam = Object.FindFirstObjectByType<Camera>();
             if (cam == null) return;
-            cam.backgroundColor = new Color(0.055f, 0.055f, 0.071f);
+            cam.backgroundColor = new Color(0.09f, 0.09f, 0.11f);
             cam.clearFlags = CameraClearFlags.SolidColor;
         }
 
@@ -130,9 +151,11 @@ namespace UIFX.Editor
             rt.offsetMin = rt.offsetMax = Vector2.zero;
 
             var img = go.AddComponent<Image>();
-            img.color = new Color(0.055f, 0.055f, 0.071f);
+            img.color = new Color(0.09f, 0.09f, 0.11f);
             img.raycastTarget = false;
         }
+
+        const float SdfScale = 3f;
 
         static TextMeshProUGUI CreateLabel(
             Transform parent, string text,
@@ -145,11 +168,14 @@ namespace UIFX.Editor
 
             var rt = go.AddComponent<RectTransform>();
             rt.anchoredPosition = anchoredPos;
-            rt.sizeDelta = size;
+            rt.sizeDelta = size / SdfScale;
+            go.transform.localScale = Vector3.one * SdfScale;
 
             var tmp = go.AddComponent<TextMeshProUGUI>();
+            if (_fontAsset != null)
+                tmp.font = _fontAsset;
             tmp.text = text;
-            tmp.fontSize = fontSize;
+            tmp.fontSize = fontSize / SdfScale;
             tmp.color = color;
             tmp.fontStyle = style;
             tmp.alignment = TextAlignmentOptions.Center;
@@ -247,9 +273,9 @@ namespace UIFX.Editor
                 float x = startX + i * (btnW + gap);
                 CreateWiredButton(canvasParent, (i + 1).ToString(),
                     new Vector2(x, -280), new Vector2(btnW, btnH),
-                    new Color(0.20f, 0.20f, 0.25f),
-                    new Color(0.30f, 0.30f, 0.38f),
-                    new Color(0.14f, 0.14f, 0.18f),
+                    new Color(0.28f, 0.28f, 0.34f),
+                    new Color(0.38f, 0.38f, 0.46f),
+                    new Color(0.20f, 0.20f, 0.26f),
                     system, methods[i]);
             }
         }
@@ -258,9 +284,9 @@ namespace UIFX.Editor
         {
             CreateWiredButton(canvasParent, "Reset",
                 new Vector2(0, -360), new Vector2(160, 45),
-                new Color(0.22f, 0.14f, 0.14f),
-                new Color(0.34f, 0.20f, 0.20f),
-                new Color(0.16f, 0.10f, 0.10f),
+                new Color(0.35f, 0.20f, 0.20f),
+                new Color(0.45f, 0.28f, 0.28f),
+                new Color(0.25f, 0.14f, 0.14f),
                 system, "ResetOrder");
         }
 
