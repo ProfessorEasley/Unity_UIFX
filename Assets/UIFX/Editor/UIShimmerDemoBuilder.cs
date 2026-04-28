@@ -91,7 +91,6 @@ namespace UIFX.Editor
         // Entry point
         // ──────────────────────────────────────────────────────────────
 
-        [MenuItem("UIFX/Shimmer/Create Demo Scene")]
         public static void Build()
         {
             UIFXStyledDemoBuilder.BuildShimmerScene();
