@@ -2,6 +2,8 @@
 
 Store short feature capture videos here. Keep one subfolder per feature so demo clips stay easy to find from GitHub and from the Unity project window.
 
+Open [index.html](index.html) in a browser for the tabbed teaser gallery.
+
 The checked-in clips are `.webm` captures rendered at 1280x720.
 
 | Feature | Clip | Video folder README |

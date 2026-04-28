@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UIFX Showcase Videos</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0f141b;
+      --panel: #171f2a;
+      --panel-strong: #1f2a38;
+      --text: #f4f7fb;
+      --muted: #a8b4c3;
+      --line: #344253;
+      --accent: #6fd4ff;
+      --accent-strong: #8cffc1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    main {
+      width: min(1120px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 32px 0 44px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    input[name="feature"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    label {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 14px;
+      font-size: 14px;
+      background: #121922;
+    }
+
+    label:hover {
+      border-color: #5d7086;
+      color: var(--text);
+    }
+
+    .panels {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--panel);
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(260px, 0.8fr);
+      gap: 24px;
+      padding: 22px;
+      align-items: center;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #090d12;
+      border: 1px solid #273344;
+      border-radius: 8px;
+    }
+
+    .copy {
+      display: grid;
+      gap: 12px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .meta {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .meta strong {
+      color: var(--text);
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .links a {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 11px;
+      background: var(--panel-strong);
+    }
+
+    #tab-shimmer:checked ~ .tabs label[for="tab-shimmer"],
+    #tab-path:checked ~ .tabs label[for="tab-path"],
+    #tab-shine:checked ~ .tabs label[for="tab-shine"],
+    #tab-sparkle:checked ~ .tabs label[for="tab-sparkle"],
+    #tab-coin:checked ~ .tabs label[for="tab-coin"],
+    #tab-glow:checked ~ .tabs label[for="tab-glow"],
+    #tab-order:checked ~ .tabs label[for="tab-order"] {
+      color: #081018;
+      border-color: var(--accent-strong);
+      background: var(--accent-strong);
+    }
+
+    #tab-shimmer:checked ~ .panels #panel-shimmer,
+    #tab-path:checked ~ .panels #panel-path,
+    #tab-shine:checked ~ .panels #panel-shine,
+    #tab-sparkle:checked ~ .panels #panel-sparkle,
+    #tab-coin:checked ~ .panels #panel-coin,
+    #tab-glow:checked ~ .panels #panel-glow,
+    #tab-order:checked ~ .panels #panel-order {
+      display: block;
+    }
+
+    @media (max-width: 760px) {
+      header,
+      .panel-inner {
+        display: grid;
+      }
+
+      .panel-inner {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      label {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>UIFX Showcase Videos</h1>
+        <p>Seven Unity UI effects condensed into a browser-ready teaser gallery.</p>
+      </div>
+      <p><a href="../../../../README.md">Back to main README</a></p>
+    </header>
+
+    <input type="radio" name="feature" id="tab-shimmer" checked>
+    <input type="radio" name="feature" id="tab-path">
+    <input type="radio" name="feature" id="tab-shine">
+    <input type="radio" name="feature" id="tab-sparkle">
+    <input type="radio" name="feature" id="tab-coin">
+    <input type="radio" name="feature" id="tab-glow">
+    <input type="radio" name="feature" id="tab-order">
+
+    <nav class="tabs" aria-label="Feature tabs">
+      <label for="tab-shimmer">UIShimmer</label>
+      <label for="tab-path">Path Progress</label>
+      <label for="tab-shine">Shine Shader</label>
+      <label for="tab-sparkle">Sparkle Particles</label>
+      <label for="tab-coin">Coin Counter</label>
+      <label for="tab-glow">Sprite Glow</label>
+      <label for="tab-order">Dynamic Order</label>
+    </nav>
+
+    <section class="panels">
+      <article class="panel" id="panel-shimmer">
+        <div class="panel-inner">
+          <video src="UIShimmer/uishimmer-demo.webm" controls autoplay muted loop playsinline preload="metadata"></video>
+          <div class="copy">
+            <h2>UIShimmer</h2>
+            <p>Click-triggered sweeps across configurable UGUI cards.</p>
+            <div class="meta">
+              <span><strong>Clip:</strong> uishimmer-demo.webm</span>
+              <span><strong>Feature:</strong> custom shader material per UI image</span>
+            </div>
+            <div class="links">
+              <a href="UIShimmer/README.md">Video README</a>
+              <a href="../../../../README.md#uishimmer--jing-yang">Feature docs</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-path">
+        <div class="panel-inner">
+          <video src="PathProgress/path-progress-demo.webm" controls autoplay muted loop playsinline preload="metadata"></video>
+          <div class="copy">
+            <h2>UIPathProgress</h2>
+            <p>Distance-normalized line fill across a node path with a moving lead head.</p>
+            <div class="meta">
+              <span><strong>Clip:</strong> path-progress-demo.webm</span>
+              <span><strong>Feature:</strong> progress range slider and node completion pulses</span>
+            </div>
+            <div class="links">
+              <a href="PathProgress/README.md">Video README</a>
+              <a href="../../../../README.md#uipathprogress--vedaant-rajeshirke">Feature docs</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-shine">
+        <div class="panel-inner">
+          <video src="ShineShader/shine-shader-hover.webm" controls autoplay muted loop playsinline preload="metadata"></video>
+          <div class="copy">
+            <h2>Button Shine/Ripple</h2>
+            <p>Hover-driven diagonal shine with a button ripple accent.</p>
+            <div class="meta">
+              <span><strong>Clip:</strong> shine-shader-hover.webm</span>
+              <span><strong>Feature:</strong> manual shader progress for shine and hover response</span>
+            </div>
+            <div class="links">
+              <a href="ShineShader/README.md">Video README</a>
+              <a href="../../../../README.md#button-shine-shader--sriram-subramanian">Feature docs</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-sparkle">
+        <div class="panel-inner">
+          <video src="SparkleParticles/sparkle-particles-demo.webm" controls autoplay muted loop playsinline preload="metadata"></video>
+          <div class="copy">
+            <h2>uGUI Sparkle Particles</h2>
+            <p>Particles fly toward a target image and fill a progress bar.</p>
+            <div class="meta">
+              <span><strong>Clip:</strong> sparkle-particles-demo.webm</span>
+              <span><strong>Feature:</strong> pooled UGUI image particles with live color controls</span>
+            </div>
+            <div class="links">
+              <a href="SparkleParticles/README.md">Video README</a>
+              <a href="../../../../README.md#ugui-sparkle-particles--aryan-shah">Feature docs</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-coin">
+        <div class="panel-inner">
+          <video src="CoinCounter/coin-counter-demo.webm" controls autoplay muted loop playsinline preload="metadata"></video>
+          <div class="copy">
+            <h2>Animated Coin Counter</h2>
+            <p>TextMesh Pro number animation with ease-out motion and scale punch.</p>
+            <div class="meta">
+              <span><strong>Clip:</strong> coin-counter-demo.webm</span>
+              <span><strong>Feature:</strong> interruptible counter animation for score feedback</span>
+            </div>
+            <div class="links">
+              <a href="CoinCounter/README.md">Video README</a>
+              <a href="../../../../README.md#animated-coin-counter--vasudha-padala">Feature docs</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-glow">
+        <div class="panel-inner">
+          <video src="SpriteGlow/sprite-glow-demo.webm" controls autoplay muted loop playsinline preload="metadata"></video>
+          <div class="copy">
+            <h2>Sprite Glow Outline</h2>
+            <p>Pulsing outline treatment for sprite emphasis and status feedback.</p>
+            <div class="meta">
+              <span><strong>Clip:</strong> sprite-glow-demo.webm</span>
+              <span><strong>Feature:</strong> adjustable glow colors and outline intensity</span>
+            </div>
+            <div class="links">
+              <a href="SpriteGlow/README.md">Video README</a>
+              <a href="../../../../README.md#sprite-glow-outline--aryaman-kunwar">Feature docs</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel" id="panel-order">
+        <div class="panel-inner">
+          <video src="DynamicOrder/dynamic-order-demo.webm" controls autoplay muted loop playsinline preload="metadata"></video>
+          <div class="copy">
+            <h2>Dynamic Ordering System</h2>
+            <p>Animated item selection and reordering for vertical UI lists.</p>
+            <div class="meta">
+              <span><strong>Clip:</strong> dynamic-order-demo.webm</span>
+              <span><strong>Feature:</strong> item exit, slot slide, and re-entry transitions</span>
+            </div>
+            <div class="links">
+              <a href="DynamicOrder/README.md">Video README</a>
+              <a href="../../../../README.md#dynamic-ordering-system--naveen-prakaasham-vairaprakasam">Feature docs</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

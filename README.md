@@ -26,17 +26,55 @@ If the editor is in Play mode when you click a menu item it exits play mode firs
 
 ## Showcase Videos
 
-Store feature capture videos under [Assets/UIFX/Demo/Videos](Assets/UIFX/Demo/Videos/README.md). Each feature has a rendered `.webm` clip, README, and folder:
+The browser teaser gallery is available at [Assets/UIFX/Demo/Videos/index.html](Assets/UIFX/Demo/Videos/index.html). It condenses all seven showcase clips into feature tabs.
 
-| Feature | Clip | Video README |
-|---|---|---|
-| UIShimmer | [uishimmer-demo.webm](Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm) | [Assets/UIFX/Demo/Videos/UIShimmer/README.md](Assets/UIFX/Demo/Videos/UIShimmer/README.md) |
-| UIPathProgress | [path-progress-demo.webm](Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm) | [Assets/UIFX/Demo/Videos/PathProgress/README.md](Assets/UIFX/Demo/Videos/PathProgress/README.md) |
-| Button Shine/Ripple | [shine-shader-hover.webm](Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm) | [Assets/UIFX/Demo/Videos/ShineShader/README.md](Assets/UIFX/Demo/Videos/ShineShader/README.md) |
-| uGUI Sparkle Particles | [sparkle-particles-demo.webm](Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm) | [Assets/UIFX/Demo/Videos/SparkleParticles/README.md](Assets/UIFX/Demo/Videos/SparkleParticles/README.md) |
-| Animated Coin Counter | [coin-counter-demo.webm](Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm) | [Assets/UIFX/Demo/Videos/CoinCounter/README.md](Assets/UIFX/Demo/Videos/CoinCounter/README.md) |
-| Sprite Glow Outline | [sprite-glow-demo.webm](Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm) | [Assets/UIFX/Demo/Videos/SpriteGlow/README.md](Assets/UIFX/Demo/Videos/SpriteGlow/README.md) |
-| Dynamic Ordering System | [dynamic-order-demo.webm](Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm) | [Assets/UIFX/Demo/Videos/DynamicOrder/README.md](Assets/UIFX/Demo/Videos/DynamicOrder/README.md) |
+For Markdown renderers that allow inline HTML video, the same clips also appear below as a compact teaser grid. Videos are muted, looped, and set to autoplay where the browser permits it.
+
+<table>
+  <tr>
+    <td width="50%">
+      <strong>UIShimmer</strong><br>
+      <video src="Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm" controls autoplay muted loop playsinline preload="metadata" width="100%"></video><br>
+      <a href="Assets/UIFX/Demo/Videos/UIShimmer/README.md">Video README</a>
+    </td>
+    <td width="50%">
+      <strong>UIPathProgress</strong><br>
+      <video src="Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm" controls autoplay muted loop playsinline preload="metadata" width="100%"></video><br>
+      <a href="Assets/UIFX/Demo/Videos/PathProgress/README.md">Video README</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Button Shine/Ripple</strong><br>
+      <video src="Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm" controls autoplay muted loop playsinline preload="metadata" width="100%"></video><br>
+      <a href="Assets/UIFX/Demo/Videos/ShineShader/README.md">Video README</a>
+    </td>
+    <td width="50%">
+      <strong>uGUI Sparkle Particles</strong><br>
+      <video src="Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm" controls autoplay muted loop playsinline preload="metadata" width="100%"></video><br>
+      <a href="Assets/UIFX/Demo/Videos/SparkleParticles/README.md">Video README</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Animated Coin Counter</strong><br>
+      <video src="Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm" controls autoplay muted loop playsinline preload="metadata" width="100%"></video><br>
+      <a href="Assets/UIFX/Demo/Videos/CoinCounter/README.md">Video README</a>
+    </td>
+    <td width="50%">
+      <strong>Sprite Glow Outline</strong><br>
+      <video src="Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm" controls autoplay muted loop playsinline preload="metadata" width="100%"></video><br>
+      <a href="Assets/UIFX/Demo/Videos/SpriteGlow/README.md">Video README</a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <strong>Dynamic Ordering System</strong><br>
+      <video src="Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm" controls autoplay muted loop playsinline preload="metadata" width="100%"></video><br>
+      <a href="Assets/UIFX/Demo/Videos/DynamicOrder/README.md">Video README</a>
+    </td>
+  </tr>
+</table>
 
 ---
 
