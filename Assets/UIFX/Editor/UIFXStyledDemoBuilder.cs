@@ -29,7 +29,6 @@ namespace UIFX.Editor
         static readonly Color MutedText = new Color(0.66f, 0.72f, 0.80f);
         static readonly Color Line = new Color(0.18f, 0.25f, 0.34f);
 
-        [MenuItem("UIFX/Rebuild Styled Demo Scenes")]
         public static void BuildAll()
         {
             UIShimmerSetup.CreateMaterial();
