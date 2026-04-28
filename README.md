@@ -26,17 +26,17 @@ If the editor is in Play mode when you click a menu item it exits play mode firs
 
 ## Showcase Videos
 
-Store feature capture videos under [Assets/UIFX/Demo/Videos](Assets/UIFX/Demo/Videos/README.md). Each feature has its own README and folder:
+Store feature capture videos under [Assets/UIFX/Demo/Videos](Assets/UIFX/Demo/Videos/README.md). Each feature has a rendered `.webm` clip, README, and folder:
 
-| Feature | Video README |
-|---|---|
-| UIShimmer | [Assets/UIFX/Demo/Videos/UIShimmer/README.md](Assets/UIFX/Demo/Videos/UIShimmer/README.md) |
-| UIPathProgress | [Assets/UIFX/Demo/Videos/PathProgress/README.md](Assets/UIFX/Demo/Videos/PathProgress/README.md) |
-| Button Shine/Ripple | [Assets/UIFX/Demo/Videos/ShineShader/README.md](Assets/UIFX/Demo/Videos/ShineShader/README.md) |
-| uGUI Sparkle Particles | [Assets/UIFX/Demo/Videos/SparkleParticles/README.md](Assets/UIFX/Demo/Videos/SparkleParticles/README.md) |
-| Animated Coin Counter | [Assets/UIFX/Demo/Videos/CoinCounter/README.md](Assets/UIFX/Demo/Videos/CoinCounter/README.md) |
-| Sprite Glow Outline | [Assets/UIFX/Demo/Videos/SpriteGlow/README.md](Assets/UIFX/Demo/Videos/SpriteGlow/README.md) |
-| Dynamic Ordering System | [Assets/UIFX/Demo/Videos/DynamicOrder/README.md](Assets/UIFX/Demo/Videos/DynamicOrder/README.md) |
+| Feature | Clip | Video README |
+|---|---|---|
+| UIShimmer | [uishimmer-demo.webm](Assets/UIFX/Demo/Videos/UIShimmer/uishimmer-demo.webm) | [Assets/UIFX/Demo/Videos/UIShimmer/README.md](Assets/UIFX/Demo/Videos/UIShimmer/README.md) |
+| UIPathProgress | [path-progress-demo.webm](Assets/UIFX/Demo/Videos/PathProgress/path-progress-demo.webm) | [Assets/UIFX/Demo/Videos/PathProgress/README.md](Assets/UIFX/Demo/Videos/PathProgress/README.md) |
+| Button Shine/Ripple | [shine-shader-hover.webm](Assets/UIFX/Demo/Videos/ShineShader/shine-shader-hover.webm) | [Assets/UIFX/Demo/Videos/ShineShader/README.md](Assets/UIFX/Demo/Videos/ShineShader/README.md) |
+| uGUI Sparkle Particles | [sparkle-particles-demo.webm](Assets/UIFX/Demo/Videos/SparkleParticles/sparkle-particles-demo.webm) | [Assets/UIFX/Demo/Videos/SparkleParticles/README.md](Assets/UIFX/Demo/Videos/SparkleParticles/README.md) |
+| Animated Coin Counter | [coin-counter-demo.webm](Assets/UIFX/Demo/Videos/CoinCounter/coin-counter-demo.webm) | [Assets/UIFX/Demo/Videos/CoinCounter/README.md](Assets/UIFX/Demo/Videos/CoinCounter/README.md) |
+| Sprite Glow Outline | [sprite-glow-demo.webm](Assets/UIFX/Demo/Videos/SpriteGlow/sprite-glow-demo.webm) | [Assets/UIFX/Demo/Videos/SpriteGlow/README.md](Assets/UIFX/Demo/Videos/SpriteGlow/README.md) |
+| Dynamic Ordering System | [dynamic-order-demo.webm](Assets/UIFX/Demo/Videos/DynamicOrder/dynamic-order-demo.webm) | [Assets/UIFX/Demo/Videos/DynamicOrder/README.md](Assets/UIFX/Demo/Videos/DynamicOrder/README.md) |
 
 ---
 

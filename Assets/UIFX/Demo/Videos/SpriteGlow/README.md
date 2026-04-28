@@ -2,9 +2,8 @@
 
 Store captures for the SpriteRenderer outline glow effect here.
 
-Suggested filenames:
-- `sprite-glow-demo.mp4`
-- `sprite-glow-bloom.webm`
+Rendered clip:
+- [sprite-glow-demo.webm](sprite-glow-demo.webm)
 
 Feature docs: [../../../../../README.md](../../../../../README.md)
 Video index: [../README.md](../README.md)
