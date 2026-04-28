@@ -45,18 +45,6 @@ namespace UIFX.Editor
             {
                 Debug.LogWarning("[UIFX] TMP font not found at " + FontPath + ". Import TMP Essential Resources first.");
             }
-            else if (_fontAsset.material != null)
-            {
-                var sdfShader = Shader.Find("TextMeshPro/Distance Field");
-                if (sdfShader == null)
-                    sdfShader = Shader.Find("TextMeshPro/Mobile/Distance Field");
-                if (sdfShader != null && _fontAsset.material.shader != sdfShader)
-                {
-                    _fontAsset.material.shader = sdfShader;
-                    EditorUtility.SetDirty(_fontAsset.material);
-                    AssetDatabase.SaveAssets();
-                }
-            }
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.DefaultGameObjects, NewSceneMode.Single);
 
