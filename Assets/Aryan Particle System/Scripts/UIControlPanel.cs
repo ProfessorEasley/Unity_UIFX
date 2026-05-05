@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 [AddComponentMenu("Scripts/Control Panel")]
 public class UIControlPanel : MonoBehaviour
@@ -12,8 +13,12 @@ public class UIControlPanel : MonoBehaviour
     public Button goldButton;
 
     [Header("Sliders")]
-    public Slider speedSlider;    // range 50-800
-    public Slider sizeSlider;     // range 4-60
+    public Slider speedSlider;
+    public Slider sizeSlider;
+
+    [Header("Slider Value Labels (optional)")]
+    public TMP_Text speedValueLabel;
+    public TMP_Text sizeValueLabel;
 
     private void Start()
     {
@@ -31,7 +36,12 @@ public class UIControlPanel : MonoBehaviour
             speedSlider.minValue = 50f;
             speedSlider.maxValue = 800f;
             speedSlider.value = 220f;
-            speedSlider.onValueChanged.AddListener(sparkleLoop.SetSpeed);
+            speedSlider.onValueChanged.AddListener(v =>
+            {
+                sparkleLoop.SetSpeed(v);
+                if (speedValueLabel) speedValueLabel.text = $"Speed: {Mathf.RoundToInt(v)}";
+            });
+            if (speedValueLabel) speedValueLabel.text = $"Speed: {Mathf.RoundToInt(speedSlider.value)}";
         }
 
         if (sizeSlider)
@@ -39,7 +49,12 @@ public class UIControlPanel : MonoBehaviour
             sizeSlider.minValue = 4f;
             sizeSlider.maxValue = 60f;
             sizeSlider.value = 20f;
-            sizeSlider.onValueChanged.AddListener(sparkleLoop.SetSize);
+            sizeSlider.onValueChanged.AddListener(v =>
+            {
+                sparkleLoop.SetSize(v);
+                if (sizeValueLabel) sizeValueLabel.text = $"Size: {Mathf.RoundToInt(v)}";
+            });
+            if (sizeValueLabel) sizeValueLabel.text = $"Size: {Mathf.RoundToInt(sizeSlider.value)}";
         }
     }
 }

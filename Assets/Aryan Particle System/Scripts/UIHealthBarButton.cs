@@ -15,7 +15,7 @@ public class UIHealthBarButton : MonoBehaviour
         {
             sparkleLoop.ResetBar();
             _full = false;
-            if (buttonLabel) buttonLabel.text = "Fill +20%";
+            if (buttonLabel) buttonLabel.text = "Fill Health";
         }
         else
         {
@@ -31,6 +31,6 @@ public class UIHealthBarButton : MonoBehaviour
             if (buttonLabel) buttonLabel.text = "Reset";
         };
 
-        if (buttonLabel) buttonLabel.text = "Fill +20%";
+        if (buttonLabel) buttonLabel.text = "Fill Health";
     }
 }

@@ -12,27 +12,31 @@ public class UISparkleLoop : MonoBehaviour
 
     [Header("References")]
     public Image healthBarFill;
+    [Tooltip("Particles launch from this point — usually the Fill button.")]
+    public RectTransform launchPoint;
 
     [Header("Spawn")]
-    [Range(1, 60)] public int poolSize = 30;
+    [Range(1, 120)] public int poolSize = 60;
     [Range(0.5f, 30f)] public float emissionRate = 12f;
+    [Tooltip("Spread at launch point — 0 = perfect laser, higher = wider stream.")]
+    [Range(0f, 60f)] public float launchSpread = 15f;
 
     [Header("Motion")]
     [Range(50f, 800f)] public float flySpeed = 220f;
-    [Range(0f, 80f)] public float wobble = 30f;
+    [Range(0f, 300f)] public float arcHeight = 120f;
+
+    [Header("Trails")]
+    public bool enableTrails = true;
+    [Range(0.02f, 0.2f)] public float trailSpawnInterval = 0.04f;
+    [Range(0.1f, 0.8f)] public float trailGhostLifetime = 0.3f;
 
     [Header("Scale")]
     [Range(4f, 60f)] public float minSize = 8f;
     [Range(4f, 60f)] public float maxSize = 20f;
 
     [Header("Fill Behavior")]
-    [Range(0.05f, 1f)] public float fillPerClick = 0.2f;          // how much each click adds
-    [Range(0.005f, 0.1f)] public float fillPerParticle = 0.02f;   // how much each particle adds
-
-    [Header("Fill Style")]
-    public bool preserveInitialFill = false;
-    public Color emptyFillColor = Color.red;
-    public Color fullFillColor = Color.green;
+    [Range(0.05f, 1f)] public float fillPerClick = 0.2f;
+    [Range(0.005f, 0.1f)] public float fillPerParticle = 0.02f;
 
     // ── Private ───────────────────────────────────────────────
     private readonly List<UISparkleParticle> _pool = new List<UISparkleParticle>();
@@ -55,9 +59,8 @@ public class UISparkleLoop : MonoBehaviour
 
         if (healthBarFill != null)
         {
-            _currentFill = preserveInitialFill ? healthBarFill.fillAmount : 0f;
-            _targetFill = _currentFill;
-            ApplyFillVisual(_currentFill);
+            healthBarFill.fillAmount = 0f;
+            healthBarFill.color = Color.red;
         }
     }
 
@@ -69,7 +72,6 @@ public class UISparkleLoop : MonoBehaviour
 
     // ── Public API ────────────────────────────────────────────
 
-    /// <summary>One click = add fillPerClick amount to the bar.</summary>
     public void AddFillChunk()
     {
         if (_currentFill >= 1f) return;
@@ -85,17 +87,12 @@ public class UISparkleLoop : MonoBehaviour
         foreach (var p in _pool) Deactivate(p);
         if (healthBarFill != null)
         {
-            ApplyFillVisual(0f);
+            healthBarFill.fillAmount = 0f;
+            healthBarFill.color = Color.red;
         }
     }
 
-    // ── Live setters for the control panel ──────────────────
-
-    public void SetParticleColor(Color c)
-    {
-        sparkleColor = c;
-    }
-
+    public void SetParticleColor(Color c) => sparkleColor = c;
     public void SetSpeed(float s) => flySpeed = Mathf.Clamp(s, 50f, 800f);
     public void SetSize(float s)
     {
@@ -135,7 +132,6 @@ public class UISparkleLoop : MonoBehaviour
 
     private void TickEmitter()
     {
-        // Stop emitting when we've hit the target chunk
         if (_currentFill >= _targetFill - 0.001f)
         {
             _emitting = false;
@@ -148,50 +144,86 @@ public class UISparkleLoop : MonoBehaviour
         while (_emitTimer >= interval)
         {
             _emitTimer -= interval;
-            TrySpawn();
+            TrySpawnMain();
         }
     }
 
-    private void TrySpawn()
+    private void TrySpawnMain()
     {
         foreach (var p in _pool)
         {
-            if (!p.active) { Activate(p); return; }
+            if (!p.active) { ActivateMain(p); return; }
         }
     }
 
-    private void Activate(UISparkleParticle p)
+    private void ActivateMain(UISparkleParticle p)
     {
-        Vector2 screenSpawn = GetRandomScreenEdgePoint();
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            _selfRect, screenSpawn, GetCanvasCamera(), out Vector2 localSpawn);
+        // Launch from the button position (with small spread)
+        Vector2 launchLocal = GetLaunchLocalPos();
+        launchLocal += new Vector2(
+            Random.Range(-launchSpread, launchSpread),
+            Random.Range(-launchSpread, launchSpread));
 
-        p.rect.anchoredPosition = localSpawn;
+        p.startPos = launchLocal;
         p.targetPos = GetRandomBarPoint();
+        p.rect.anchoredPosition = launchLocal;
+
+        // Arc control point — always curves UPWARD toward the bar
+        Vector2 mid = (launchLocal + p.targetPos) * 0.5f;
+        // push the midpoint higher (positive Y) for a nice upward arc
+        p.controlPoint = mid + new Vector2(
+            Random.Range(-40f, 40f),   // slight side variation
+            arcHeight);                 // consistently upward
 
         float s = Random.Range(minSize, maxSize);
         p.rect.sizeDelta = Vector2.one * s;
         p.scaleStart = s;
         p.scaleEnd = s * 0.2f;
 
-        float dist = Vector2.Distance(localSpawn, p.targetPos);
+        float dist = Vector2.Distance(launchLocal, p.targetPos);
         p.maxLifetime = Mathf.Clamp(dist / flySpeed, 0.3f, 3f);
         p.lifetime = 0f;
         p.arrived = false;
+        p.isGhost = false;
+        p.trailTimer = 0f;
         p.speed = flySpeed;
         p.rotationSpeed = Random.Range(-180f, 180f);
 
-        Color c = sparkleColor;
-        if (hueVariance > 0f)
-        {
-            Color.RGBToHSV(c, out float h, out float sv, out float v);
-            h = Mathf.Repeat(h + Random.Range(-hueVariance, hueVariance), 1f);
-            c = Color.HSVToRGB(h, sv, v);
-            c.a = sparkleColor.a;
-        }
-        p.rect.GetComponent<Image>().color = c;
+        ApplyColor(p);
 
         p.group.alpha = 0f;
+        p.rect.gameObject.SetActive(true);
+        p.active = true;
+    }
+
+    private void TrySpawnGhost(Vector2 atPos, float parentSize, Color parentColor)
+    {
+        foreach (var p in _pool)
+        {
+            if (!p.active)
+            {
+                ActivateGhost(p, atPos, parentSize, parentColor);
+                return;
+            }
+        }
+    }
+
+    private void ActivateGhost(UISparkleParticle p, Vector2 atPos, float parentSize, Color parentColor)
+    {
+        p.rect.anchoredPosition = atPos;
+        p.rect.sizeDelta = Vector2.one * parentSize * 0.7f;
+        p.scaleStart = parentSize * 0.7f;
+        p.scaleEnd = 0f;
+        p.lifetime = 0f;
+        p.maxLifetime = trailGhostLifetime;
+        p.isGhost = true;
+        p.arrived = false;
+
+        Color c = parentColor;
+        c.a = 0.5f;
+        p.rect.GetComponent<Image>().color = c;
+
+        p.group.alpha = 0.5f;
         p.rect.gameObject.SetActive(true);
         p.active = true;
     }
@@ -201,6 +233,19 @@ public class UISparkleLoop : MonoBehaviour
         p.group.alpha = 0f;
         p.rect.gameObject.SetActive(false);
         p.active = false;
+    }
+
+    private void ApplyColor(UISparkleParticle p)
+    {
+        Color c = sparkleColor;
+        if (hueVariance > 0f)
+        {
+            Color.RGBToHSV(c, out float h, out float sv, out float v);
+            h = Mathf.Repeat(h + Random.Range(-hueVariance, hueVariance), 1f);
+            c = Color.HSVToRGB(h, sv, v);
+            c.a = sparkleColor.a;
+        }
+        p.rect.GetComponent<Image>().color = c;
     }
 
     // ── Per-frame tick ────────────────────────────────────────
@@ -216,27 +261,43 @@ public class UISparkleLoop : MonoBehaviour
             p.lifetime += dt;
             float t = Mathf.Clamp01(p.lifetime / p.maxLifetime);
 
-            Vector2 current = p.rect.anchoredPosition;
-            float dist = Vector2.Distance(current, p.targetPos);
+            if (p.isGhost)
+            {
+                if (t >= 1f) { Deactivate(p); continue; }
+                p.group.alpha = (1f - t) * 0.5f;
+                p.rect.sizeDelta = Vector2.one * Mathf.Lerp(p.scaleStart, p.scaleEnd, t);
+                continue;
+            }
 
-            if (dist < 8f && !p.arrived)
+            Vector2 pos = QuadraticBezier(p.startPos, p.controlPoint, p.targetPos, t);
+            p.rect.anchoredPosition = pos;
+
+            if (enableTrails)
+            {
+                p.trailTimer -= dt;
+                if (p.trailTimer <= 0f)
+                {
+                    p.trailTimer = trailSpawnInterval;
+                    TrySpawnGhost(pos, p.rect.sizeDelta.x,
+                                  p.rect.GetComponent<Image>().color);
+                }
+            }
+
+            if (t >= 1f && !p.arrived)
             {
                 p.arrived = true;
-                // Only fill up to the current target chunk
                 if (_currentFill < _targetFill)
                 {
                     _currentFill = Mathf.Min(_targetFill, _currentFill + fillPerParticle);
                     if (healthBarFill != null)
-                        ApplyFillVisual(_currentFill);
+                    {
+                        healthBarFill.fillAmount = _currentFill;
+                        healthBarFill.color = Color.Lerp(Color.red, sparkleColor, _currentFill);
+                    }
                 }
                 Deactivate(p);
                 continue;
             }
-
-            Vector2 dir = (p.targetPos - current).normalized;
-            Vector2 perp = new Vector2(-dir.y, dir.x);
-            float wobbleOffset = Mathf.Sin(p.lifetime * 8f) * wobble;
-            p.rect.anchoredPosition += (dir + perp * wobbleOffset * dt) * p.speed * dt;
 
             p.group.alpha = t < 0.2f ? t / 0.2f : 1f;
             p.rect.sizeDelta = Vector2.one * Mathf.Lerp(p.scaleStart, p.scaleEnd, t);
@@ -244,20 +305,29 @@ public class UISparkleLoop : MonoBehaviour
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────
+    // ── Bezier ────────────────────────────────────────────────
 
-    private Vector2 GetRandomScreenEdgePoint()
+    private static Vector2 QuadraticBezier(Vector2 a, Vector2 b, Vector2 c, float t)
     {
-        int edge = Random.Range(0, 4);
-        float sw = Screen.width;
-        float sh = Screen.height;
-        return edge switch
-        {
-            0 => new Vector2(Random.Range(0f, sw), sh),
-            1 => new Vector2(Random.Range(0f, sw), 0f),
-            2 => new Vector2(0f, Random.Range(0f, sh)),
-            _ => new Vector2(sw, Random.Range(0f, sh)),
-        };
+        float u = 1f - t;
+        return (u * u) * a + (2f * u * t) * b + (t * t) * c;
+    }
+
+    // ── Position helpers ──────────────────────────────────────
+
+    private Vector2 GetLaunchLocalPos()
+    {
+        if (launchPoint == null) return Vector2.zero;
+
+        // World center of the launch RectTransform
+        Vector3[] corners = new Vector3[4];
+        launchPoint.GetWorldCorners(corners);
+        Vector3 worldCenter = (corners[0] + corners[2]) * 0.5f;
+
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(GetCanvasCamera(), worldCenter);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            _selfRect, screenPoint, GetCanvasCamera(), out Vector2 local);
+        return local;
     }
 
     private Vector2 GetRandomBarPoint()
@@ -279,15 +349,6 @@ public class UISparkleLoop : MonoBehaviour
     private Camera GetCanvasCamera() =>
         _canvas != null && _canvas.renderMode != RenderMode.ScreenSpaceOverlay
             ? _canvas.worldCamera : null;
-
-    private void ApplyFillVisual(float fill)
-    {
-        if (healthBarFill == null) return;
-
-        float clamped = Mathf.Clamp01(fill);
-        healthBarFill.fillAmount = clamped;
-        healthBarFill.color = Color.Lerp(emptyFillColor, fullFillColor, clamped);
-    }
 
 #if UNITY_EDITOR
     private void OnValidate()
