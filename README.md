@@ -15,7 +15,7 @@ Every effect has a styled showcase scene reachable from the editor menu bar. The
 | **UIFX › Shimmer › Open Demo Scene** | UIShimmer | Jing Yang |
 | **UIFX › Path Progress › Open Demo Scene** | UIPathProgress | Vedaant Rajeshirke |
 | **UIFX › Shine Shader › Open Demo Scene** | Button Shine/Ripple | Sriram Subramanian |
-| **UIFX › Sparkle Particles › Open Demo Scene** | uGUI Sparkle Particles | Aryan Shah |
+| **UIFX › Sparkle Particles › Open Demo Scene** | uGUI Sparkle Particles | Aryan Saraf |
 | **UIFX › Coin Counter › Open Demo Scene** | Animated Coin Counter | Vasudha Padala |
 | **UIFX › Sprite Glow › Open Demo Scene** | Sprite Glow Outline | Aryaman Kunwar |
 | **UIFX › Dynamic Order › Open Demo Scene** | Dynamic Ordering System | Naveen Prakaasham Vairaprakasam |
@@ -120,7 +120,7 @@ A hover-triggered diagonal shine/ripple effect for UGUI buttons. Attach `ButtonH
 
 ---
 
-### uGUI Sparkle Particles — Aryan Shah
+### uGUI Sparkle Particles — Aryan Saraf
 `Assets/Aryan Particle System/Scripts/UISparkleLoop.cs`
 
 A fully UGUI-based sparkle particle system where particles fly in from the screen edges toward a target `Image` fill bar. Each particle that arrives fills the bar slightly, creating a tactile "collecting" feel. Supports a live control panel (color buttons, speed/size sliders).
