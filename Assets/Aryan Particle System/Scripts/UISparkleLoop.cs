@@ -24,6 +24,12 @@ public class UISparkleLoop : MonoBehaviour
     [Header("Motion")]
     [Range(50f, 800f)] public float flySpeed = 220f;
     [Range(0f, 300f)] public float arcHeight = 120f;
+    [Header("Demo Compatibility")]
+    [Range(0f, 80f)] public float wobble = 46f;
+    public bool preserveInitialFill = true;
+    public Color emptyFillColor = new Color(0.14f, 0.82f, 1f);
+    public Color fullFillColor = new Color(0.55f, 1f, 0.42f);
+
 
     [Header("Trails")]
     public bool enableTrails = true;
